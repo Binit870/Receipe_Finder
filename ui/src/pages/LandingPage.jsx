@@ -103,12 +103,12 @@ const Section = ({ cat }) => {
 
   // ✅ Pass category to Card page
   const handleExplore = () => {
-  if (token) {
-    navigate(`/card/${cat.name}`); // ✅ Pass category in URL
-  } else {
-    navigate("/login"); // ❌ Not logged in → redirect to login
-  }
-};
+    if (token) {
+      navigate(`/card/${cat.name}`); // ✅ Pass category in URL
+    } else {
+      navigate("/login"); // ❌ Not logged in → redirect to login
+    }
+  };
 
 
   return (

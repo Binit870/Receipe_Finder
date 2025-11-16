@@ -196,9 +196,8 @@ export default function CommunityChat() {
                 />
                 <div className="flex flex-col">
                   <p
-                    className={`text-xs font-semibold ${
-                      isOwn ? "text-blue-600 text-right" : "text-gray-700"
-                    }`}
+                    className={`text-xs font-semibold ${isOwn ? "text-blue-600 text-right" : "text-gray-700"
+                      }`}
                   >
                     {msg?.user?.username || msg.username || "Anonymous"}
                   </p>
@@ -235,11 +234,10 @@ export default function CommunityChat() {
                 <>
                   {msg.message && (
                     <div
-                      className={`px-3 py-2 rounded-2xl shadow-sm max-w-xs break-words flex flex-col ${
-                        isOwn
-                          ? "bg-blue-500 text-white rounded-br-none"
-                          : "bg-white text-gray-800 rounded-bl-none"
-                      }`}
+                      className={`px-3 py-2 rounded-2xl shadow-sm max-w-xs break-words flex flex-col ${isOwn
+                        ? "bg-blue-500 text-white rounded-br-none"
+                        : "bg-white text-gray-800 rounded-bl-none"
+                        }`}
                     >
                       <div className="flex items-center justify-between gap-2">
                         <span>{msg.message}</span>

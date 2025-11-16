@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react"; // ✅ clean icon
 
@@ -13,7 +13,7 @@ const Community = () => {
 
   return (
     <section className="relative py-16 px-4 md:px-8 lg:px-16 min-h-screen overflow-auto bg-gradient-to-br from-teal-50 via-white to-teal-100 text-gray-800">
-      
+
       {/* 🔙 Back Button */}
       <button
         onClick={() => navigate(-1)}
@@ -35,22 +35,20 @@ const Community = () => {
         <div className="flex justify-center gap-6 text-lg font-semibold mb-8">
           <button
             onClick={() => setActiveTab("recipes")}
-            className={`px-2 pb-1 transition ${
-              activeTab === "recipes"
-                ? "text-teal-600 border-b-2 border-teal-600"
-                : "text-gray-500 hover:text-teal-600"
-            }`}
+            className={`px-2 pb-1 transition ${activeTab === "recipes"
+              ? "text-teal-600 border-b-2 border-teal-600"
+              : "text-gray-500 hover:text-teal-600"
+              }`}
           >
             Recipes
           </button>
 
           <button
             onClick={() => setActiveTab("chat")}
-            className={`px-2 pb-1 transition ${
-              activeTab === "chat"
-                ? "text-teal-600 border-b-2 border-teal-600"
-                : "text-gray-500 hover:text-teal-600"
-            }`}
+            className={`px-2 pb-1 transition ${activeTab === "chat"
+              ? "text-teal-600 border-b-2 border-teal-600"
+              : "text-gray-500 hover:text-teal-600"
+              }`}
           >
             Chat
           </button>

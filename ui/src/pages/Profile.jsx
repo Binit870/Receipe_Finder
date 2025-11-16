@@ -77,67 +77,65 @@ export default function Profile() {
       </button>
 
       {/* Header */}
-<div className="text-center mb-12 relative">
-  <div className="relative mx-auto w-28 h-28">
-    <div className="w-full h-full rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-5xl shadow-xl overflow-hidden border border-white/30">
-      {/* Profile Image or Default Icon */}
-      {user.profilePic ? (
-        <img
-          src={`http://localhost:5000${user.profilePic}`}
-          alt="Profile"
-          className="w-full h-full object-cover rounded-full"
-        />
-      ) : (
-        <span>👤</span>
-      )}
-    </div>
+      <div className="text-center mb-12 relative">
+        <div className="relative mx-auto w-28 h-28">
+          <div className="w-full h-full rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-5xl shadow-xl overflow-hidden border border-white/30">
+            {/* Profile Image or Default Icon */}
+            {user.profilePic ? (
+              <img
+                src={`http://localhost:5000${user.profilePic}`}
+                alt="Profile"
+                className="w-full h-full object-cover rounded-full"
+              />
+            ) : (
+              <span>👤</span>
+            )}
+          </div>
 
-    {/* 🆕 Edit Icon - just outside the circle */}
-    <label
-      htmlFor="profilePicInput"
-      className="absolute -bottom-2 -right-2 bg-white text-gray-800 p-2 rounded-full shadow-md cursor-pointer hover:scale-105 hover:bg-gray-100 transition"
-      title="Edit profile picture"
-    >
-      <Pencil size={18} strokeWidth={2} />
-    </label>
-    <input
-      type="file"
-      id="profilePicInput"
-      accept="image/*"
-      onChange={handleProfilePicChange}
-      className="hidden"
-    />
-  </div>
+          {/* 🆕 Edit Icon - just outside the circle */}
+          <label
+            htmlFor="profilePicInput"
+            className="absolute -bottom-2 -right-2 bg-white text-gray-800 p-2 rounded-full shadow-md cursor-pointer hover:scale-105 hover:bg-gray-100 transition"
+            title="Edit profile picture"
+          >
+            <Pencil size={18} strokeWidth={2} />
+          </label>
+          <input
+            type="file"
+            id="profilePicInput"
+            accept="image/*"
+            onChange={handleProfilePicChange}
+            className="hidden"
+          />
+        </div>
 
-  <h1 className="text-4xl font-bold mt-4 tracking-wide">{user.name}</h1>
-  <p className="text-white/60">@{user.username}</p>
+        <h1 className="text-4xl font-bold mt-4 tracking-wide">{user.name}</h1>
+        <p className="text-white/60">@{user.username}</p>
 
-  {/* Uploading indicator */}
-  {uploading && (
-    <p className="text-sm text-white/60 mt-2 animate-pulse">Uploading image...</p>
-  )}
-</div>
+        {/* Uploading indicator */}
+        {uploading && (
+          <p className="text-sm text-white/60 mt-2 animate-pulse">Uploading image...</p>
+        )}
+      </div>
 
 
       {/* Tabs */}
       <div className="flex justify-center gap-12 mb-12 text-xl">
         <button
           onClick={() => setActiveTab("details")}
-          className={`pb-1 transition ${
-            activeTab === "details"
-              ? "border-b-4 border-white font-bold"
-              : "text-white/50 hover:text-white"
-          }`}
+          className={`pb-1 transition ${activeTab === "details"
+            ? "border-b-4 border-white font-bold"
+            : "text-white/50 hover:text-white"
+            }`}
         >
           Profile Details
         </button>
         <button
           onClick={() => setActiveTab("liked")}
-          className={`pb-1 transition ${
-            activeTab === "liked"
-              ? "border-b-4 border-white font-bold"
-              : "text-white/50 hover:text-white"
-          }`}
+          className={`pb-1 transition ${activeTab === "liked"
+            ? "border-b-4 border-white font-bold"
+            : "text-white/50 hover:text-white"
+            }`}
         >
           Liked Recipes ❤️
         </button>

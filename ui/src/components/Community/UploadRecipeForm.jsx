@@ -31,45 +31,45 @@ export default function UploadRecipeForm({ onClose, onUploaded }) {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
+    e.preventDefault();
+    setLoading(true);
 
-  try {
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("category", category);
-    formData.append("country", country);
-    formData.append("videoLink", videoLink);
-    formData.append("ingredients", JSON.stringify(ingredients));
-    formData.append("steps", JSON.stringify(steps));
-    if (image) formData.append("image", image);
+    try {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("category", category);
+      formData.append("country", country);
+      formData.append("videoLink", videoLink);
+      formData.append("ingredients", JSON.stringify(ingredients));
+      formData.append("steps", JSON.stringify(steps));
+      if (image) formData.append("image", image);
 
-    const res = await API.post("/community/recipes", formData, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+      const res = await API.post("/community/recipes", formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-    // ✅ Send the newly created recipe back up
-    onUploaded(res.data);
+      // ✅ Send the newly created recipe back up
+      onUploaded(res.data);
 
-    setLoading(false);
-    onClose(); // ✅ Close modal → returns to first section
-  } catch (err) {
-    setLoading(false);
-    alert("Failed to upload recipe");
-    console.error(err);
-  }
-};
+      setLoading(false);
+      onClose(); // ✅ Close modal → returns to first section
+    } catch (err) {
+      setLoading(false);
+      alert("Failed to upload recipe");
+      console.error(err);
+    }
+  };
 
 
 
   return (
     <div className="fixed inset-0 bg-black/40 flex justify-center items-center backdrop-blur-sm z-50">
       <div className="bg-gradient-to-b from-green-200 to-gray-100 shadow-xl border border-gray-300 rounded-xl p-6 w-full max-w-xl max-h-[88vh] overflow-y-auto">
-        
+
         <h2 className="text-lg font-semibold mb-4 text-amber-800 text-center">Upload Recipe</h2>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
-          
+
           {/* Name + Category */}
           <div className="flex gap-3">
             <input

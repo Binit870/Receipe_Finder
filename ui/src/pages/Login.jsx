@@ -87,13 +87,12 @@ const Login = () => {
             className="fixed inset-x-0 flex justify-center z-50"
           >
             <div
-              className={`alert shadow-lg border ${
-                toastType === "success"
-                  ? "bg-white text-green-600 border-green-400"
-                  : toastType === "error"
+              className={`alert shadow-lg border ${toastType === "success"
+                ? "bg-white text-green-600 border-green-400"
+                : toastType === "error"
                   ? "bg-white text-red-600 border-red-400"
                   : "bg-white text-black border-gray-300"
-              }`}
+                }`}
             >
               <span>{toastMsg}</span>
             </div>

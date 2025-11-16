@@ -286,9 +286,8 @@ const Details = () => {
           <div className="w-full md:w-1/2 md:pr-6" ref={ingredientsRef}>
             <h2 className="text-2xl font-semibold mb-3 text-white">Ingredients</h2>
             <ul
-              className={`list-disc pl-6 space-y-1 transition-all duration-500 ${
-                showFullIngredients ? "max-h-full" : "max-h-40 overflow-hidden"
-              }`}
+              className={`list-disc pl-6 space-y-1 transition-all duration-500 ${showFullIngredients ? "max-h-full" : "max-h-40 overflow-hidden"
+                }`}
             >
               {dish.ingredients?.map((item, index) => (
                 <li key={index}>
@@ -316,9 +315,8 @@ const Details = () => {
           <div className="w-full md:w-1/2 md:pl-6 mt-6 md:mt-0" ref={procedureRef}>
             <h2 className="text-2xl font-semibold mb-3 text-white">Cooking Procedure</h2>
             <p
-              className={`leading-relaxed whitespace-pre-line transition-all duration-500 ${
-                showFullProcedure ? "max-h-full" : "max-h-40 overflow-hidden"
-              }`}
+              className={`leading-relaxed whitespace-pre-line transition-all duration-500 ${showFullProcedure ? "max-h-full" : "max-h-40 overflow-hidden"
+                }`}
             >
               {dish.procedure}
             </p>

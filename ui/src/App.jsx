@@ -6,6 +6,7 @@ import LandingPage from "./pages/LandingPage";
 import Card from "./pages/card";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
+
 import Details from "./pages/details";
 import Guide from "./pages/Guide";
 import Countries from "./pages/Countries";
@@ -48,7 +49,7 @@ function AppContent() {
 
 
         <Route
-        path="/profile"
+          path="/profile"
           element={
             <ProtectedRoute>
               <Profile />
