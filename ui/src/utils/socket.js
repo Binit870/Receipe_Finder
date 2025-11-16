@@ -2,9 +2,15 @@ import { io } from "socket.io-client";
 
 const token = localStorage.getItem("token");
 
-const socket = io("http://localhost:5000", {
+// Automatically switch between dev & production
+const BACKEND_URL =
+  import.meta.env.MODE === "development"
+    ? "http://localhost:5000"
+    : import.meta.env.VITE_BACKEND_URL; // Set this in Netlify
+
+const socket = io(BACKEND_URL, {
   withCredentials: true,
-  auth: { token }, // 🔥 token sent in socket handshake
+  auth: { token },
 });
 
 export default socket;
