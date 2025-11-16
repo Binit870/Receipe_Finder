@@ -8,7 +8,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 
 import Details from "./pages/details";
-import Guide from "./pages/Guide";
+import Guide from "./pages/guide";
 import Countries from "./pages/Countries";
 import IngredientsPage from "./pages/IngredientsPage";
 import Chatbot from "./components/Chatbot";
