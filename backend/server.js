@@ -45,7 +45,8 @@ app.use(express.json());
 
 // ✅ CORS
 const allowedOrigins = [
-  process.env.FRONTEND_URL, // <-- your deployed Vercel frontend
+  process.env.VITE_BACKEND_URL
+, // <-- your deployed Vercel frontend
   "http://localhost:5173",  // <-- for local dev
   "http://localhost:5174",  // <-- optional (if you used another port)
 ];
