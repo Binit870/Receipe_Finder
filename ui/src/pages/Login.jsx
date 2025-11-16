@@ -1,83 +1,105 @@
+/* src/pages/Login.jsx */
 import React, { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import loginBg from "../assets/login img.png";
-import { useAuth } from "../context/authContext.jsx";
+import { motion, AnimatePresence } from "framer-motion"; // ✅ for animation
+import signupBg from "../assets/signupimg.png";
 
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
-  const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState({ type: "", text: "" });
+
+  // ✅ Toast states
+  const [toastMsg, setToastMsg] = useState("");
+  const [toastType, setToastType] = useState(""); // "success" | "error"
+
+  const showToast = (msg, type = "info") => {
+    setToastMsg(msg);
+    setToastType(type);
+    setTimeout(() => {
+      setToastMsg("");
+      setToastType("");
+    }, 2500); // auto hide after 2.5s
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    setMessage({ type: "", text: "" });
-
     try {
       await login(email, password);
-      setMessage({ type: "success", text: "Login successful! Redirecting..." });
-
-      setTimeout(() => {
-        navigate("/");
-      }, 1500);
-
-    } catch (error) {
-      setMessage({ type: "error", text: error.message });
-      setIsLoading(false);
+      showToast("Login successful! Redirecting...", "success");
+      setTimeout(() => navigate("/"), 1800); // redirect after short delay
+    } catch (err) {
+      showToast(err.message || "Login failed!", "error");
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center relative bg-[radial-gradient(circle_at_center,_#414D85,_#191F40)] text-white">
       <Navbar />
+
+      {/* Background image */}
       <img
-        src={loginBg}
+        src={signupBg}
         alt="decor"
         className="absolute inset-0 w-full h-full object-cover opacity-60 z-0 pointer-events-none"
       />
-      <div className="relative z-10 backdrop-blur-lg bg-white/10 p-10 rounded-2xl shadow-2xl border border-white/20 w-96 mt-12 min-h-[480px] flex flex-col">
-        <h2 className="text-3xl font-bold mb-8 text-center tracking-wide">Login</h2>
-        <form onSubmit={handleSubmit} className="flex flex-col space-y-6 mt-4">
+
+      {/* Login Form */}
+      <div className="relative z-10 backdrop-blur-lg bg-white/10 p-10 rounded-2xl shadow-2xl border border-white/20 w-96 flex flex-col">
+        <h2 className="text-3xl font-bold mb-8 text-center">Login</h2>
+        <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
           <input
             type="email"
             placeholder="Email"
-            className="px-4 py-3 rounded-lg bg-white/20 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-white"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="px-4 py-2 rounded bg-white/20 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-white"
             required
           />
           <input
             type="password"
             placeholder="Password"
-            className="px-4 py-3 rounded-lg bg-white/20 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-white"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="px-4 py-2 rounded bg-white/20 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-white"
             required
           />
           <button
             type="submit"
-            className="px-4 py-3 rounded-lg bg-white/20 border border-white/30 hover:bg-white/30 text-white font-semibold hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled={isLoading}
+            className="px-4 py-2 bg-white/20 rounded text-white font-bold hover:bg-white/30 transition"
           >
-            {isLoading ? "Logging in..." : "Login"}
+            Login
           </button>
         </form>
-        
-        {/* Display the message here */}
-        {message.text && (
-          <p className={`mt-4 text-center ${
-              message.type === 'success' ? 'text-green-400' : 'text-red-400'
-            }`}
-          >
-            {message.text}
-          </p>
-        )}
       </div>
+
+      {/* ✅ Animated Toast */}
+      <AnimatePresence>
+        {toastMsg && (
+          <motion.div
+            initial={{ y: 0, opacity: 0, scale: 0.9 }}
+            animate={{ y: -260, opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="fixed inset-x-0 flex justify-center z-50"
+          >
+            <div
+              className={`alert shadow-lg border ${
+                toastType === "success"
+                  ? "bg-white text-green-600 border-green-400"
+                  : toastType === "error"
+                  ? "bg-white text-red-600 border-red-400"
+                  : "bg-white text-black border-gray-300"
+              }`}
+            >
+              <span>{toastMsg}</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

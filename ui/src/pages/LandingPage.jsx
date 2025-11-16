@@ -1,16 +1,16 @@
-// npm i framer-motion lucide-react
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { UtensilsCrossed } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import Navbar from "../components/Navbar";
 
-// Images
+// 🖼️ Images
 import vegImg from "../assets/VEGTHALI.png";
 import nonVegImg from "../assets/CHICKEN.png";
 import drinksImg from "../assets/MILK.png";
 import dessertsImg from "../assets/ICECREAM.png";
 
-// Overlay Images
+// 🖼️ Overlay Images
 import vegBars from "../assets/Screenshot_2025-08-20_210556-removebg-preview.png";
 import redBars from "../assets/red.png";
 import yellowBars from "../assets/yellow.png";
@@ -19,28 +19,28 @@ import purpleBars from "../assets/purp.png";
 // ---- CONFIG ----
 const categories = [
   {
-    name: "VEGETARIAN",
+    name: "vegetarian",
     image: vegImg,
     overlay: vegBars,
     bg: "bg-[radial-gradient(circle_at_center,_#86efac,_#16a34a)]",
     text: "text-white",
   },
   {
-    name: "NON-VEG",
+    name: "non-veg",
     image: nonVegImg,
     overlay: redBars,
     bg: "bg-[radial-gradient(circle_at_center,_#fca5a5,_#b91c1c)]",
     text: "text-white",
   },
   {
-    name: "DRINKS",
+    name: "drinks",
     image: drinksImg,
     overlay: yellowBars,
     bg: "bg-[radial-gradient(circle_at_center,_#fde68a,_#b45309)]",
     text: "text-white",
   },
   {
-    name: "DESSERTS",
+    name: "desserts",
     image: dessertsImg,
     overlay: purpleBars,
     bg: "bg-[radial-gradient(circle_at_center,_#c4b5fd,_#5b21b6)]",
@@ -50,9 +50,22 @@ const categories = [
 
 // ---- PAGE ----
 export default function LandingPage() {
+  const location = useLocation();
+
+  // Scroll to section if passed via navigation state
+  useEffect(() => {
+    if (location.state?.scrollTo) {
+      const el = document.getElementById(location.state.scrollTo);
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+    }
+  }, [location.state]);
+
   return (
     <>
-      {/* Hide Scrollbar */}
       <style>{`
         .hide-scrollbar::-webkit-scrollbar {
           display: none;
@@ -63,11 +76,8 @@ export default function LandingPage() {
         }
       `}</style>
 
-      {/* HEADER */}
-      <Header />
       <Navbar />
 
-      {/* RECIPE SCROLL SECTIONS */}
       <main className="relative">
         <div className="h-screen w-full overflow-y-scroll snap-y snap-mandatory hide-scrollbar">
           {categories.map((cat) => (
@@ -79,18 +89,7 @@ export default function LandingPage() {
   );
 }
 
-// ---- HEADER ----
-const Header = () => (
-  <motion.header
-    initial={{ y: -100 }}
-    animate={{ y: 0 }}
-    transition={{ duration: 0.5 }}
-    className="fixed top-0 z-50 w-full bg-white/80 backdrop-blur-sm shadow-sm"
-  >
-  </motion.header>
-);
-
-// ---- SECTION ----
+// ---- SECTION COMPONENT ----
 const Section = ({ cat }) => {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -99,15 +98,29 @@ const Section = ({ cat }) => {
   });
   const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
 
+  const navigate = useNavigate();
+  const { token } = useAuth();
+
+  // ✅ Pass category to Card page
+  const handleExplore = () => {
+  if (token) {
+    navigate(`/card/${cat.name}`); // ✅ Pass category in URL
+  } else {
+    navigate("/login"); // ❌ Not logged in → redirect to login
+  }
+};
+
+
   return (
     <section
       ref={ref}
+      id={cat.name.toLowerCase()}
       className="relative flex h-screen snap-start items-center justify-center overflow-hidden pt-24"
     >
       {/* Background Gradient */}
       <div className={`absolute inset-0 ${cat.bg} z-0`} />
 
-      {/* Foreground Overlay Image (opacity 27%) */}
+      {/* Overlay Image */}
       {cat.overlay && (
         <motion.img
           src={cat.overlay}
@@ -122,7 +135,6 @@ const Section = ({ cat }) => {
 
       {/* Content */}
       <div className="relative flex flex-col items-center justify-center">
-        {/* Big Title */}
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -130,10 +142,9 @@ const Section = ({ cat }) => {
           transition={{ duration: 0.6 }}
           className={`absolute top-1/4 md:top-1/5 text-6xl font-extrabold tracking-wider md:text-9xl ${cat.text} opacity-30 whitespace-nowrap z-20`}
         >
-          {cat.name}
+          {cat.name.toUpperCase()}
         </motion.h1>
 
-        {/* Circular Image */}
         <motion.div
           style={{ y }}
           className="relative z-30 h-64 w-64 md:h-96 md:w-96 rounded-full overflow-hidden shadow-xl bg-transparent flex items-center justify-center"
@@ -149,8 +160,8 @@ const Section = ({ cat }) => {
           />
         </motion.div>
 
-        {/* Button */}
         <motion.button
+          onClick={handleExplore}
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ amount: 0.5 }}
